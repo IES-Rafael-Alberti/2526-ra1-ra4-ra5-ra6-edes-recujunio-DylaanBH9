@@ -1,3 +1,4 @@
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/f9yoQ7kr)
 # 2526 - Recuperación de entornos de desarrollo - DAW
 
 > AVISO!!! Únicamente puedes usar un editor (No IDE) y la documentación de plantUML para generar los diagramas UML. El uso de cualquier recurso que no sean estos, supondrá la no superación de la prueba.
@@ -5,8 +6,8 @@
 > Evaluación de RA1, RA4, RA5 y RA6.
  
 ---
-**Nombre:** [Nombre del alumno]
-**RA de los que te examinas:** [RA de los que te examinas. Ojo, no confundas RAs con Unidad]
+**Nombre:** Dylan Bauti Huelva
+**RA de los que te examinas:** RA4, RA6
 ---
 
 
@@ -47,7 +48,11 @@ Kotlin es un lenguaje de **alto nivel**, normalmente **compilado a bytecode** pa
 
 ### 8. (5 puntos - 10 min) ¿Qué áreas principales utiliza git para gestionar los cambios en un proyecto y para qué sirven cada uno?
 
-*Respuesta a la pregunta 8. (mínimo 200 palabras)*
+
+Las principales partes que se utilizan para gestionar git son 3: working directory, staging area y el repositorio. Y se utilizan para separar y por ende gestionar con git los cambios del proyecto. Se utilizan para lo siguiente: 
+    + Working area: En esta parte es donde uno se encarga de modificar o crear los ficheros con los que está trabajando ahora mismo. En esta parte ninguno de los cambios que hagas se guarda, si modificas algo que rompe el programa no puedes volver atrás.
+    + Staging area: En esta parte es donde uno ya ha guardado las modificaciones del proyecto pero todavía no lo ha subido a la nube. En esta parte en cambio al tener los cambios ya guardados, si te equivocas en el working area al ya haber guardado antes el proyecto pasándolo al staging area puedes volver a una versión que funcionaba.
+    + Repositorio: Es la versión en la nube del proyecto. Esta parte del proyecto se usa para guardar el proyecto en la nube y que no dependas solo de la copia de tu proyecto que está en tu dispositivo y también para facilitar los proyectos de grandes empresas o simplemente proyectos grupales para que todos puedan estar trabajando con el mismo proyecto y tener todos la misma versión del proyecto para evitar errores. 
 
 
 ---
@@ -62,34 +67,35 @@ Ejemplo de respuesta:
 *Responde a las siguientes situaciones:*
 
 1. Ver el historial de commits en una sola línea.
-    + comando: 
+    + comando: `git log --oneline`
    
 2. Deshacer el último commit y deshacer cambios. Eliminar los cambios.
-    + comando:
+    + comando: `git reset HARD~1`
 
 3. Crear la rama `featureA` y cambiar a ella.
-    + comando:
-
+    + comando: `git checkout -b featureA`
+Este comando crea la rama y te cambia directamente a ella
+Con
 4. Ver el estado del repositorio.
-    + comando:
-
+    + comando: `git status`
+      
 5. Clonar el repositorio `https://github.com/revilofe/HundirFlota.git`.
-    + comando:
+    + comando: `git clone https://github.com/revilofe/HundirFlota.git`
 
 6. Descargar al repositorio local los cambios del remote `origin` rama `main`.
-    + comando:
+    + comando: `git pull origin main`
 
 7. Subir los cambios del repositorio local al remote `origin` rama `main`.
-    + comando:
+    + comando: `git push origin main`
 
 8. Combinar la rama `featureA` con la rama principal.
-    + comando:
-
+    + comando: `git merge featureA`
+Asumiendo que ya estas en la rama main
 9. Aplicar rebase a la rama `featureA` con la rama principal.
-    + comando:
-
+    + comando: `git rebase main`
+Asumiendo que ya estas en la rama featureA
 10. Continuar el rebase de la rama `featureA` con la rama principal, una vez resueltos los conflictos.
-    + comando: 
+    + comando: `git rebase --continue`
 
 ---
 
@@ -156,19 +162,38 @@ El sistema gestiona a los usuarios en tres estados fundamentales:
 **Entrega:**
 1. (5 puntos) Imagen generada por la herramienta UML con el diagrama de estados. https://www.plantuml.com/
    
-   *Respuesta a la pregunta 12.1*
-
+   ![Imagen Diagram de estado](./diagrama_estado.png)
 
 
 2. (5 puntos) Código fuente del diagrama de estados.
    
-   *Respuesta a la pregunta 12.2*
+   ```
+   @startuml
+
+left to right direction
+
+[*] --> Activo : Completar registro / Crear perfil
+
+
+Activo --> Bloqueado : Intento fallido o sospecha - intentos_fallidos > 3 o actividad_sospechosa = True
+
+Bloqueado --> Activo : Verificación de seguridad - desbloqueo = Admin o desbloqueo = Automatico
+
+Activo --> Desactivado : Solicitud o inactividad - solicita_desactivar = True o inactividad > 6 meses
+
+Desactivado --> Activo : Solicitud del usuario - solicitud_reactivacion = True  Restaurar cuenta
+
+@enduml```
 
 
 
 3. (5 puntos) Explicación de estados y sus acciones/actividades, transiciones y sus guardas.
    
    *Respuesta a la pregunta 12.3*
+
+   Los estados y transiciones del diagrama se basan segun la reglas de negocio que vienen en el ejercicio. Si ocurre un evente se bloque, activa o desactiva segun lo que haya ocurrido. El diagram en si es bastante simple te muestra graficamente lo que ocurre dependiendo de cada caso. Cuando empiezas incias sesion o te registras y tu cuenta esta activada, pero si al intentar inciar sesion te equivocas mas de 3 veces se bloquea, para desbloquearla se desbloque automaticamente o por un admin. Y por ultimo pasa al estado de desactivada si el usuario la desactiva o pasan 6 meses de inactividad y se vuelve activar cuando el usuario solicita su activacion.
+
+   
 
 
 ---
