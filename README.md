@@ -162,19 +162,38 @@ El sistema gestiona a los usuarios en tres estados fundamentales:
 **Entrega:**
 1. (5 puntos) Imagen generada por la herramienta UML con el diagrama de estados. https://www.plantuml.com/
    
-   *Respuesta a la pregunta 12.1*
-
+   ![Imagen Diagram de estado](./diagrama_estado.png)
 
 
 2. (5 puntos) Código fuente del diagrama de estados.
    
-   *Respuesta a la pregunta 12.2*
+   ```
+   @startuml
+
+left to right direction
+
+[*] --> Activo : Completar registro / Crear perfil
+
+
+Activo --> Bloqueado : Intento fallido o sospecha - intentos_fallidos > 3 o actividad_sospechosa = True
+
+Bloqueado --> Activo : Verificación de seguridad - desbloqueo = Admin o desbloqueo = Automatico
+
+Activo --> Desactivado : Solicitud o inactividad - solicita_desactivar = True o inactividad > 6 meses
+
+Desactivado --> Activo : Solicitud del usuario - solicitud_reactivacion = True  Restaurar cuenta
+
+@enduml```
 
 
 
 3. (5 puntos) Explicación de estados y sus acciones/actividades, transiciones y sus guardas.
    
    *Respuesta a la pregunta 12.3*
+
+   Los estados y transiciones del diagrama se basan segun la reglas de negocio que vienen en el ejercicio. Si ocurre un evente se bloque, activa o desactiva segun lo que haya ocurrido. El diagram en si es bastante simple te muestra graficamente lo que ocurre dependiendo de cada caso. Cuando empiezas incias sesion o te registras y tu cuenta esta activada, pero si al intentar inciar sesion te equivocas mas de 3 veces se bloquea, para desbloquearla se desbloque automaticamente o por un admin. Y por ultimo pasa al estado de desactivada si el usuario la desactiva o pasan 6 meses de inactividad y se vuelve activar cuando el usuario solicita su activacion.
+
+   
 
 
 ---
